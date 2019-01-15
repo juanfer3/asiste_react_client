@@ -33,6 +33,14 @@ class FormEventos extends Component {
             id: null,
             _destroy: false
           };
+
+        this.emptyFechaEvento = {
+            fecha: '',
+            fecha_inicio: '',
+            fecha_final: '',
+            id: null,
+            _destroy: false
+        }
         
         this.state = {
             evento: {
@@ -40,6 +48,7 @@ class FormEventos extends Component {
                 cupo: '',
                 aforo: '',
                 duracion: '',
+                fechas_eventos_attributes: [Object.assign({}, this.emptyFechaEvento)],
                 tasks_attributes: [Object.assign({}, this.emptyTask)]
             }
         }
@@ -77,6 +86,19 @@ class FormEventos extends Component {
       }
 
     /**
+     * Funcion para agregar fecha de los eventos
+     */
+    AddFechaEvento() {
+        this
+        .state
+        .evento
+        .fechas_eventos_attributes
+        .push(Object.assign({}, this.emptyFechaEvento));
+        this.setState({ evento: this.state.evento });
+    }
+       
+
+    /**
      * Funcion para capturar evento de los task
      * @param {*} event //Capturar nombre del evento
      * @param {*} task // Capturar el task 
@@ -85,8 +107,20 @@ class FormEventos extends Component {
         const value = event.target.value;
         task[event.target.name] = value;
         console.log(task);
-        
     }
+
+
+    /**
+     * Funcion para capturar evento de los fechaEvento
+     * @param {*} event //Capturar nombre del evento
+     * @param {*} task // Capturar el Fecha
+     */  
+    onFechaEventoChange(event, fechaEvento) {
+        const value = event.target.value;
+        fechaEvento[event.target.name] = value;
+        console.log(fechaEvento);
+    }
+
       
     /**
      * Funciòn para enviar el formulario
@@ -94,43 +128,21 @@ class FormEventos extends Component {
     handleFormSubmit() {
         console.log(this.state);
     }
-
-
-    renderTasksForm() {
+    
+    renderFechaEventoForm() {
         let counter = 0;
-        return this.state.evento.tasks_attributes.map((task, index) => {
-          if (task._destroy === false) {
-            let taskDOM = (
-              <div className="task-form" key={index}>
-                <div className="form-group">
-                  <div className="clearfix" style={{ marginBottom: 5 }}>
-                    <button
-                      className="btn btn-danger"
-                      style={{ padding: '5px 10px', float: 'right' }}
-                      >
-                      X
-                    </button>
-                  </div>
-                  <input
-                    placeholder="Title"
-                    type="text" 
-                    name="title"
-                    onChange={event => this.onTaskTitleChange(event, task)}
-                    className="form-control"
-                  />
-                  <input
-                    placeholder="Title"
-                    type="text"
-                    name="contenido"
-                    onChange={event => this.onTaskTitleChange(event, task)}
-                    className="form-control"
-                  />
+        return this.state.evento.fechas_eventos_attributes.map((fecha_evento, index) => {
+          if (fecha_evento._destroy === false) {
+            let fechaEventoDOM = (
+                <div>
+                    <FechaCompromiso/>
+                     <br/>
                 </div>
-              </div>
+              
             );
             counter++;
       
-            return taskDOM;
+            return fechaEventoDOM;
           } else {
             return null;
           }
@@ -227,12 +239,12 @@ class FormEventos extends Component {
                 </form>
 
                 <div>
-                    <h1>Agregar Task</h1>
-                    <FechaCompromiso></FechaCompromiso>
-                    {this.renderTasksForm()}
+                    <FechaCompromiso/>
+    
+                    
                 </div>
 
-                <Button variant="contained" color="primary" onClick={() => this.handleAddTask()} >
+                <Button variant="contained" color="primary" onClick={() => this.AddFechaEvento()} >
                     Add
                 </Button>
 

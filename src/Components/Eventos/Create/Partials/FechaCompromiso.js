@@ -16,7 +16,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-
+import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import { TimePicker } from 'material-ui-pickers';
@@ -27,6 +27,18 @@ import esLocale from 'date-fns/locale/es';
 
 
 class FechaCompromiso extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {fecha:'2014-08-18T21:11:54'}
+    }
+
+    handleDateChange(e) {
+        let value = e.target.value;
+        console.log(value);
+        //this.setState({ [e.target.name]: value })
+    }
+
     render() {
         return (
             <div>
@@ -54,6 +66,8 @@ class FechaCompromiso extends Component {
                                                 label="Fecha"
                                                 fullWidth
                                                 margin="normal"
+                                                value={this.state.fecha}
+                                                onChange={e => this.handleDateChange(e)}
                                                 />
                                             </MuiPickersUtilsProvider>
                                             </Grid>
@@ -64,6 +78,7 @@ class FechaCompromiso extends Component {
                                                     name="hora_inicio"
                                                     label="Hora de inicio"
                                                     margin="normal"
+                                                    fullWidth
                                                     />
                                                 </MuiPickersUtilsProvider>
                                             </Grid>
@@ -74,6 +89,7 @@ class FechaCompromiso extends Component {
                                                     name="hora_final"
                                                     label="Hora Final"
                                                     margin="normal"
+                                                    fullWidth
                                                     />
                                                 </MuiPickersUtilsProvider>
                                             </Grid>

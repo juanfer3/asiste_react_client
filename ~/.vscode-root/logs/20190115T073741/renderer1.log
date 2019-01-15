@@ -18519,3 +18519,6 @@
     at ReadStream.emit (events.js:211:7)
     at fs.js:1999:12
     at FSReqWrap.oncomplete (fs.js:135:15)
+[2019-01-15 12:07:29.841] [renderer1] [warning] Aborted onWillSaveTextDocument-event after 1750ms
+[2019-01-15 12:28:11.655] [renderer1] [error] An unknown error occurred. Please consult the log for more details.
+[2019-01-15 14:05:31.053] [renderer1] [info] no standard startup: not just one text editor
