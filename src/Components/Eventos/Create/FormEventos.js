@@ -15,18 +15,24 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
+
+import FechaCompromiso from './Partials/FechaCompromiso';
 
 
 
-  
 
 class FormEventos extends Component {
 
     
     constructor(props) {
         super(props);
+
+        this.emptyTask = {
+            title: '',
+            contenido: '',
+            id: null,
+            _destroy: false
+          };
         
         this.state = {
             evento: {
@@ -34,134 +40,205 @@ class FormEventos extends Component {
                 cupo: '',
                 aforo: '',
                 duracion: '',
+                tasks_attributes: [Object.assign({}, this.emptyTask)]
             }
         }
+
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+     
     }
+
+
+
+    /**
+     * Tomar los valres de los inputs eventos
+     * @param {*} e //tomar la informaciòn del input
+     */
+    handleEventoNameChange(e) {
+        let value = e.target.value;
+        this.setState({
+            evento: {
+                  ...this.state.evento,
+                  [e.target.name]: value
+            }
+        })
+    }
+
+    /**
+     * Funcion para agregar Task los eventos
+     */
+    handleAddTask() {
+        this
+        .state
+        .evento
+        .tasks_attributes
+        .push(Object.assign({}, this.emptyTask));
+        this.setState({ evento: this.state.evento });
+      }
+
+    /**
+     * Funcion para capturar evento de los task
+     * @param {*} event //Capturar nombre del evento
+     * @param {*} task // Capturar el task 
+     */  
+    onTaskTitleChange(event, task) {
+        const value = event.target.value;
+        task[event.target.name] = value;
+        console.log(task);
+        
+    }
+      
+    /**
+     * Funciòn para enviar el formulario
+     */
+    handleFormSubmit() {
+        console.log(this.state);
+    }
+
+
+    renderTasksForm() {
+        let counter = 0;
+        return this.state.evento.tasks_attributes.map((task, index) => {
+          if (task._destroy === false) {
+            let taskDOM = (
+              <div className="task-form" key={index}>
+                <div className="form-group">
+                  <div className="clearfix" style={{ marginBottom: 5 }}>
+                    <button
+                      className="btn btn-danger"
+                      style={{ padding: '5px 10px', float: 'right' }}
+                      >
+                      X
+                    </button>
+                  </div>
+                  <input
+                    placeholder="Title"
+                    type="text" 
+                    name="title"
+                    onChange={event => this.onTaskTitleChange(event, task)}
+                    className="form-control"
+                  />
+                  <input
+                    placeholder="Title"
+                    type="text"
+                    name="contenido"
+                    onChange={event => this.onTaskTitleChange(event, task)}
+                    className="form-control"
+                  />
+                </div>
+              </div>
+            );
+            counter++;
+      
+            return taskDOM;
+          } else {
+            return null;
+          }
+        });
+      }
 
 
     render() {
         
         return (
             <div>
-                <h1>Create Form</h1>
+                <h1>Registar Evento</h1>
+                <form> 
+                    <Grid container spacing={24} direction="row" justify="center" alignItems="center">
+                        <Grid item xs={9}>
+                            <Card >
+                                <CardHeader
+                                avatar={
+                                    <Typography>Información del Evento</Typography>
+                                }
 
-                <Grid
-                container spacing={24}
-                direction="row"
-                justify="center"
-                alignItems="center"
-                >
-                <Grid item xs={9}>
-                <Card >
-                <CardHeader
-                avatar={
-                    <Typography>Información del Evento</Typography>
-                }
-                action={
-                    <IconButton>
-                    <MoreVertIcon />
-                    </IconButton>
-                }
-                
-                />
-                <CardMedia
-                
-                image="/static/images/cards/paella.jpg"
-                title="Paella dish"
-                />
-                <CardContent>
-                    <form>
+                                action={
+                                    <IconButton>
+                                    <MoreVertIcon />
+                                    </IconButton>
+                                }/>
+                                <CardContent>                                        
+                                    <Grid container spacing={24}>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                            id="standard-uncontrolled"
+                                            label="Nombre de evento"
+                                            name="nombre"
+                                            onChange={e => this.handleEventoNameChange(e)}
+                                            margin="normal"
+                                            fullWidth
+                                            />
+                                        </Grid>
+                                    
+                                        <Grid item xs={4}>
+                                            <TextField
+                                            id="standard-uncontrolled"
+                                            label="Aforo"
+                                            name="aforo"
+                                            onChange={e => this.handleEventoNameChange(e)}
+                                            margin="normal"
+                                            type="number"
+                                            fullWidth
+                                            />
+                                        </Grid>
 
+                                        <Grid item xs={4}>
+                                            <TextField
+                                            id="standard-uncontrolled"
+                                            label="Cupo"
+                                            name="cupo"
+                                            onChange={e => this.handleEventoNameChange(e)}
+                                            type="number"
+                                            margin="normal"
+                                            fullWidth
+                                            />
+                                        </Grid>
 
-                        <DatePicker
-                            margin="normal"
-                            label="Date picker"
-                        
-                        />
-                        <TimePicker
-                            margin="normal"
-                            label="Time picker"
-                    
-                          
-                        />
+                                        <Grid item xs={4}>
+                                            <TextField
+                                            id="standard-uncontrolled"
+                                            label="Duración"
+                                            name="duracion"
+                                            onChange={e => this.handleEventoNameChange(e)}
+                                            margin="normal"
+                                            fullWidth
+                                            />
+                                        </Grid>
 
-                    <Grid container spacing={24}>
-
-                             <Grid item xs={12}>
-                                <TextField
-                                id="standard-uncontrolled"
-                                label="Nombre de evento"
-                                margin="normal"
-                                fullWidth
-                                />
-                            </Grid>
-                    
-                            <Grid item xs={4}>
-                                <TextField
-                                id="standard-uncontrolled"
-                                label="Aforo"
-                                margin="normal"
-                                fullWidth
-                                />
-                            </Grid>
-
-                            <Grid item xs={4}>
-                                <TextField
-                                id="standard-uncontrolled"
-                                label="Cupo"
-                                margin="normal"
-                                fullWidth
-                                />
-                            </Grid>
-
-                            <Grid item xs={4}>
-                                <TextField
-                                id="standard-uncontrolled"
-                                label="Duración"
-                                margin="normal"
-                                fullWidth
-                                />
-                            </Grid>
-
-                            <Grid item xs={12}>
-                            <TextField
-                            id="outlined-multiline-static"
-                            label="Descripción"
-                            multiline
-                            rows="4"
-                            fullWidth
-                            margin="normal"
-                            variant="outlined"
-                            />
-                            </Grid>
-
+                                        <Grid item xs={12}>
+                                            <TextField
+                                            id="outlined-multiline-static"
+                                            label="Descripción"
+                                            name="description"
+                                            onChange={e => this.handleEventoNameChange(e)}
+                                            multiline
+                                            rows="4"
+                                            fullWidth
+                                            margin="normal"
+                                            variant="outlined"
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                                    
+                            </Card>
                         </Grid>
+                    </Grid>
+                </form>
 
-                    </form>
-                </CardContent>
-                <CardActions  disableActionSpacing>
-                    <IconButton aria-label="Add to favorites">
-                        <FavoriteIcon />
-                    </IconButton>
-                    <IconButton aria-label="Share">
-                        <ShareIcon />
-                    </IconButton>
-                    <IconButton
-                    
-                    >
-                        <ExpandMoreIcon />
-                    </IconButton>
-                </CardActions>
-                
-                
-            </Card>
-                </Grid>
+                <div>
+                    <h1>Agregar Task</h1>
+                    <FechaCompromiso></FechaCompromiso>
+                    {this.renderTasksForm()}
+                </div>
 
-                </Grid>
-                
+                <Button variant="contained" color="primary" onClick={() => this.handleAddTask()} >
+                    Add
+                </Button>
 
-                
-
+                <Button variant="contained" color="primary" onClick={() => this.handleFormSubmit()} >
+                    Crear
+                </Button>
             </div>
         );
     }
