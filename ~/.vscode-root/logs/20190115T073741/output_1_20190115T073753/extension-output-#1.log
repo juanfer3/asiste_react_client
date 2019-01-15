@@ -14,3 +14,4 @@ fatal: no se ha configurado upstream para la rama 'master'
 > git remote --verbose
 > git show :src/Components/Eventos/Create/FormEventos.js
 > git show :src/Components/Eventos/Create/FormEventos.js
+> git check-ignore -z --stdin
