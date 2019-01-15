@@ -440,5 +440,25 @@
             "file:///home/jfvilladiego/proyecto_react/asiste"
         ],
         "files2": []
+    },
+    "windowsState": {
+        "openedWindows": [],
+        "lastActiveWindow": {
+            "folderUri": {
+                "$mid": 1,
+                "fsPath": "/home/jfvilladiego/proyecto_react/asiste",
+                "external": "file:///home/jfvilladiego/proyecto_react/asiste",
+                "path": "/home/jfvilladiego/proyecto_react/asiste",
+                "scheme": "file"
+            },
+            "backupPath": "/home/jfvilladiego/proyecto_react/asiste/~/.vscode-root/Backups/f4d5d3fae9448da5bc9d8f8462151a23",
+            "uiState": {
+                "mode": 0,
+                "x": 70,
+                "y": 55,
+                "width": 1370,
+                "height": 845
+            }
+        }
     }
 }
